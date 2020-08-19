@@ -7,10 +7,10 @@
       </RouterLink>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn text>新規登録</v-btn>
-        <v-btn text>user_name</v-btn>
+        <v-btn v-if="isLogin" text>新規登録</v-btn>
+        <v-btn text v-if="isLogin">{{ username }}</v-btn>
         <!-- <RouterLink to="/login"> -->
-          <v-btn text @click="logout">Logout</v-btn>
+        <v-btn v-if="isLogin" text @click="logout">Logout</v-btn>
         <!-- </RouterLink> -->
       </v-toolbar-items>
     </v-app-bar>
@@ -18,6 +18,14 @@
 
 <script>
 export default {
+  computed: {
+    isLogin () {
+      return this.$store.getters['auth/check']
+    },
+    username () {
+      return this.$store.getters['auth/username']
+    }
+  },
   methods: {
     async logout () {
       await this.$store.dispatch('auth/logout')

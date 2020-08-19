@@ -10,8 +10,18 @@
       </v-card-title>
       <v-card-text>
         <v-form @submit.prevent="login">
-          <v-text-field prepend-icon="mdi-email" label="email" v-model="loginForm.email" />
-          <v-text-field prepend-icon="mdi-lock" append-icon="mdi-eye-off" type="password" label="passowrd" v-model="loginForm.password"/>
+          <v-text-field
+            prepend-icon="mdi-email"
+            label="email"
+            v-model="loginForm.email"
+          />
+          <v-text-field
+            prepend-icon="mdi-lock"
+            append-icon="mdi-eye-off"
+            type="password"
+            label="passowrd"
+            v-model="loginForm.password"
+          />
           <v-card-actions>
             <v-btn class="info" type="submit">Login</v-btn>
           </v-card-actions>
@@ -54,10 +64,15 @@ export default {
       }
     }
   },
-  methods: {
-    login () {
-      console.log(this.loginForm)
+  computed: {
+    apiStatus () {
+      return this.$store.state.auth.apiStatus
     },
+    loginErrors () {
+      return this.$store.state.auth.loginErrorMessages
+    }
+  },
+  methods: {
     async register () {
       await this.$store.dispatch('auth/register', this.registerForm)
 
@@ -66,7 +81,9 @@ export default {
     async login () {
       await this.$store.dispatch('auth/login', this.loginForm)
 
-      this.$router.push('/')
+      if (this.apiStatus) {
+        this.$router.push('/')
+      }
     },
   }
 }
