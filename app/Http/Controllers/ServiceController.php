@@ -14,7 +14,7 @@ class ServiceController extends Controller
         $this->middleware('auth');
     }
 
-    public function create(StoreService $request)
+    public function create(Request $request)
     {
         $service = new Service();
 
